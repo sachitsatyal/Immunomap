@@ -18,7 +18,7 @@ jobs:
         with:
           enable-cache: true
       - name: Install exact locked versions
-        run: uv sync --locked
+        run: uv sync --locked --no-group train
       - name: ruff lint
         run: uv run ruff check .
       - name: ruff format check
