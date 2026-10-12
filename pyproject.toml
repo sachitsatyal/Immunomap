@@ -19,9 +19,13 @@ build-backend = "uv_build"
 [dependency-groups]
 dev = [
     "mypy>=2.4.0",
+    "pre-commit>=4.7.0",
     "pytest>=9.1.1",
     "pytest-cov>=7.1.0",
     "ruff>=0.17.0",
+]
+train = [
+    "torch>=2.7",
 ]
 
 [tool.ruff]
@@ -40,3 +44,11 @@ packages = ["immunomap"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-ra --cov=immunomap --cov-report=term-missing"
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu128" }
