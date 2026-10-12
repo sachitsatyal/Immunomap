@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    name: Lint, type-check and test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - name: Install exact locked versions
+        run: uv sync --locked
+      - name: ruff lint
+        run: uv run ruff check .
+      - name: ruff format check
+        run: uv run ruff format --check .
+      - name: mypy
+        run: uv run mypy
+      - name: pytest
+        run: uv run pytest
