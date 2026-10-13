@@ -1,0 +1,12 @@
+group,split,cells,donors
+aida,test,29886,62
+aida,train,239053,501
+aida,val,29857,62
+ext_hao2021,external,161159,8
+ext_lupus,external,99436,99
+onek1k,test,29977,98
+onek1k,train,239603,785
+onek1k,val,29834,98
+sound_life,test,37192,5
+sound_life,train,320700,42
+sound_life,val,36807,5
