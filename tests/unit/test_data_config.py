@@ -18,3 +18,9 @@ def test_every_reference_group_has_a_budget() -> None:
 
 def test_census_version_is_pinned() -> None:
     assert CONFIG["census_version"] not in ("stable", "latest")
+
+
+def test_external_groups_are_unique_and_not_trained_on() -> None:
+    groups = [d["group"] for d in CONFIG["external_test_datasets"]]
+    assert len(groups) == len(set(groups))
+    assert set(groups).isdisjoint(CONFIG["cell_budget"])

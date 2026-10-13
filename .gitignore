@@ -23,6 +23,7 @@ htmlcov/
 *.ckpt
 *.pt
 *.safetensors
+*.parquet
 mlruns/
 
 # Secrets
@@ -33,3 +34,5 @@ mlruns/
 .DS_Store
 .vscode/
 .idea/
+
+manifests/

@@ -3,6 +3,8 @@ organism: homo_sapiens
 base_filter: "tissue_general == 'blood' and disease == 'normal' and is_primary_data == True"
 assays: ["10x 3' v2", "10x 3' v3", "10x 5' v1", "10x 5' v2"]
 seed: 42
+split_fractions: {val: 0.1, test: 0.1}   # by donor, within each group
+rare_label_threshold: 20000              # labels rarer than this in a group are kept whole
 
 reference_datasets:          # split by donor into train / val / test
   - id: 46104f0b-9af5-466a-ae0f-56b8dc1969a2
@@ -32,7 +34,10 @@ cell_budget:                 # cells sampled per group for training
 external_test_datasets:      # whole studies, never used in training
   - id: ed5d841d-6346-47d4-ab2f-7119ad7e3a35
     name: NYGC multimodal PBMC (Hao et al. 2021)
+    group: ext_hao2021
     label_level: fine
   - id: 218acb0f-9f2f-4f76-b90b-15a4b7c7f629
     name: Lupus study healthy controls (Perez et al. 2022)
+    group: ext_lupus
     label_level: coarse
+    max_cells: 100000
