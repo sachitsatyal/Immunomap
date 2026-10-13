@@ -1,0 +1,63 @@
+cell_type_ontology_term_id,cell_type,sound_life,aida,onek1k,ext_hao2021,ext_lupus,total
+CL:0000895,"naive thymus-derived CD4-positive, alpha-beta T cell",1610502,157616,259012,17479,0,2044609
+CL:0002057,"CD14-positive, CD16-negative classical monocyte",1162647,0,0,0,0,1162647
+CL:0000904,"central memory CD4-positive, alpha-beta T cell",746094,110004,289000,14889,0,1159987
+CL:0000939,"CD16-positive, CD56-dim natural killer cell, human",601993,151655,0,0,0,753648
+CL:0000905,"effector memory CD4-positive, alpha-beta T cell",590569,25012,31261,4282,0,651124
+CL:0000900,"naive thymus-derived CD8-positive, alpha-beta T cell",449720,89029,52538,10768,0,602055
+CL:0000913,"effector memory CD8-positive, alpha-beta T cell",414783,0,161051,11727,0,587561
+CL:0000788,naive B cell,380393,36778,65702,7718,0,490591
+CL:0001054,CD14-positive monocyte,0,202124,36130,42690,0,280944
+CL:0000787,memory B cell,201050,35114,30234,3285,0,269683
+CL:0000940,mucosal invariant T cell,233630,23001,8835,2784,0,268250
+CL:0000623,natural killer cell,12304,23234,164933,17721,38304,256496
+CL:0002396,"CD14-low, CD16-positive monocyte",180105,46628,15743,6320,0,248796
+CL:0000624,"CD4-positive, alpha-beta T cell",0,40100,773,108,185152,226133
+CL:0000800,mature gamma-delta T cell,155762,0,0,0,0,155762
+CL:0000907,"central memory CD8-positive, alpha-beta T cell",123631,0,16409,2883,0,142923
+CL:0000625,"CD8-positive, alpha-beta T cell",0,53658,305,91,88781,142835
+CL:0000860,classical monocyte,0,0,0,0,86207,86207
+CL:0002678,memory regulatory T cell,78705,0,0,1212,0,79917
+CL:0000818,transitional stage B cell,47331,0,29889,0,0,77220
+CL:0002399,CD1c-positive myeloid dendritic cell,60962,13207,0,0,0,74169
+CL:0000236,B cell,0,9144,0,2431,59735,71310
+CL:0002677,naive regulatory T cell,67384,0,0,1295,0,68679
+CL:0000938,"CD16-negative, CD56-bright natural killer cell, human",53383,6152,7006,943,0,67484
+CL:0000084,T cell,10355,54800,0,0,0,65155
+CL:0000798,gamma-delta T cell,0,30695,18922,3649,0,53266
+CL:0002393,intermediate monocyte,49981,0,0,0,0,49981
+CL:0000233,platelet,30503,14799,1810,2293,0,49405
+CL:0000794,"CD8-positive, alpha-beta cytotoxic T cell",0,46528,0,0,0,46528
+CL:0000815,regulatory T cell,0,15497,26531,0,0,42028
+CL:0000784,plasmacytoid dendritic cell,30650,3796,1897,897,2965,40205
+CL:0000968,Be cell,39824,0,0,0,0,39824
+CL:0000934,"CD4-positive, alpha-beta cytotoxic T cell",0,13594,17993,1736,0,33323
+CL:0000909,"CD8-positive, alpha-beta memory T cell",3856,28138,0,0,0,31994
+CL:0000763,myeloid cell,0,26020,0,0,0,26020
+CL:0000897,"CD4-positive, alpha-beta memory T cell",22802,0,0,0,0,22802
+CL:0000875,non-classical monocyte,0,0,0,0,15091,15091
+CL:0000990,conventional dendritic cell,0,0,4570,2652,7496,14718
+CL:0009068,CD8aa(I) thymocyte,12167,0,0,0,0,12167
+CL:0002489,double negative thymocyte,9137,0,1824,356,0,11317
+CL:0000232,erythrocyte,10806,0,290,83,0,11179
+CL:0001046,memory CCR4-positive regulatory T cell,10801,0,0,0,0,10801
+CL:0000786,plasma cell,8326,1672,0,0,0,9998
+CL:0000795,"CD8-positive, alpha-beta regulatory T cell",5051,0,0,0,0,5051
+CL:0000785,mature B cell,0,4850,0,0,0,4850
+CL:0002394,CD141-positive myeloid dendritic cell,4075,554,0,0,0,4629
+CL:0000980,plasmablast,0,0,3754,366,490,4610
+CL:0001065,innate lymphoid cell,3273,707,444,132,0,4556
+CL:0000049,common myeloid progenitor,4465,0,0,0,0,4465
+CL:0017009,"Axl+ dendritic cell, human",2024,0,0,0,0,2024
+CL:0000542,lymphocyte,0,0,0,0,1858,1858
+CL:0008001,hematopoietic precursor cell,0,0,1812,0,0,1812
+CL:0000051,common lymphoid progenitor,1029,0,0,0,0,1029
+CL:0002010,pre-conventional dendritic cell,0,894,0,0,0,894
+unknown,unknown,0,0,0,605,0,605
+CL:0011024,double negative T regulatory cell,0,489,0,0,0,489
+CL:0000037,hematopoietic stem cell,0,135,0,329,0,464
+CL:0011026,progenitor cell,0,0,0,0,339,339
+CL:0002028,basophil mast progenitor cell,308,0,0,0,0,308
+CL:0000451,dendritic cell,0,0,181,0,0,181
+CL:2000001,peripheral blood mononuclear cell,0,0,131,0,0,131
+CL:0001057,"myeloid dendritic cell, human",0,0,0,40,0,40

@@ -1,0 +1,105 @@
+# Three-level label tree. Each source label maps to the deepest node it supports.
+version: 1
+
+lineage: [T cell, NK/ILC, B cell, Myeloid, Progenitor, Other]
+
+coarse:            # coarse label: its lineage
+  CD4 T: T cell
+  CD8 T: T cell
+  Treg: T cell
+  gamma-delta T: T cell
+  MAIT: T cell
+  double-negative T: T cell
+  NK: NK/ILC
+  ILC: NK/ILC
+  B: B cell
+  Plasmablast: B cell
+  CD14 monocyte: Myeloid
+  CD16 monocyte: Myeloid
+  cDC: Myeloid
+  pDC: Myeloid
+  HSPC: Progenitor
+  Platelet: Other
+  Erythrocyte: Other
+
+fine:              # fine label: its coarse parent (coarse labels without children are their own fine label)
+  CD4 naive T: CD4 T
+  CD4 central memory T: CD4 T
+  CD4 effector memory T: CD4 T
+  CD8 naive T: CD8 T
+  CD8 central memory T: CD8 T
+  CD8 effector memory T: CD8 T
+  Treg naive: Treg
+  Treg memory: Treg
+  NK CD56dim: NK
+  NK CD56bright: NK
+  B naive: B
+  B memory: B
+  cDC1: cDC
+  cDC2: cDC
+
+source_map:        # Cell Ontology ID in Census: target node
+  "CL:0000895": CD4 naive T
+  "CL:0000904": CD4 central memory T
+  "CL:0000905": CD4 effector memory T
+  "CL:0000934": CD4 effector memory T   # CD4 cytotoxic T, merged
+  "CL:0000897": CD4 T
+  "CL:0000624": CD4 T
+  "CL:0000900": CD8 naive T
+  "CL:0000907": CD8 central memory T
+  "CL:0000913": CD8 effector memory T
+  "CL:0000909": CD8 T
+  "CL:0000625": CD8 T
+  "CL:0000794": CD8 T                   # AIDA "cytotoxic", ambiguous subset
+  "CL:0002677": Treg naive
+  "CL:0002678": Treg memory
+  "CL:0001046": Treg memory
+  "CL:0000815": Treg
+  "CL:0000800": gamma-delta T
+  "CL:0000798": gamma-delta T
+  "CL:0000940": MAIT
+  "CL:0002489": double-negative T
+  "CL:0000084": T cell
+  "CL:0000939": NK CD56dim
+  "CL:0000938": NK CD56bright
+  "CL:0000623": NK
+  "CL:0001065": ILC
+  "CL:0000788": B naive
+  "CL:0000818": B naive                 # transitional B, merged
+  "CL:0000787": B memory
+  "CL:0000968": B                       # "Be cell", Sound Life only
+  "CL:0000236": B
+  "CL:0000785": B
+  "CL:0000786": Plasmablast
+  "CL:0000980": Plasmablast
+  "CL:0002057": CD14 monocyte
+  "CL:0001054": CD14 monocyte
+  "CL:0000860": CD14 monocyte
+  "CL:0002396": CD16 monocyte
+  "CL:0000875": CD16 monocyte
+  "CL:0002393": Myeloid                 # intermediate monocyte, Sound Life only
+  "CL:0000763": Myeloid
+  "CL:0000451": Myeloid
+  "CL:0002399": cDC2
+  "CL:0002394": cDC1
+  "CL:0000990": cDC
+  "CL:0001057": cDC
+  "CL:0000784": pDC
+  "CL:0000049": HSPC
+  "CL:0000051": HSPC
+  "CL:0008001": HSPC
+  "CL:0000037": HSPC
+  "CL:0011026": HSPC
+  "CL:0000233": Platelet
+  "CL:0000232": Erythrocyte
+
+drop:              # excluded from training and evaluation
+  - "CL:0009068"   # CD8aa(I) thymocyte
+  - "CL:0000795"   # CD8 regulatory T
+  - "CL:0011024"   # double-negative Treg
+  - "CL:0017009"   # AXL+ dendritic cell
+  - "CL:0002010"   # pre-conventional DC
+  - "CL:0002028"   # basophil mast progenitor
+  - "CL:0000542"   # lymphocyte
+  - "CL:2000001"   # peripheral blood mononuclear cell
+  - "unknown"
