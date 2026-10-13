@@ -6,6 +6,7 @@ disconnected Colab session can simply be re-run with the same command.
 """
 
 import argparse
+import gc
 import hashlib
 import json
 import shutil
@@ -18,7 +19,7 @@ import numpy as np
 import pandas as pd
 import yaml
 
-SHARD_SIZE = 100_000
+SHARD_SIZE = 40_000  # cells per shard; ~30k cells peaked well within free Colab RAM
 MANIFEST_OBS = ["group", "dataset_id", "donor_id", "assay", "split", "lineage", "coarse", "fine"]
 
 
@@ -67,6 +68,7 @@ def main() -> None:
     parser.add_argument("--manifest", required=True)
     parser.add_argument("--out", required=True)
     parser.add_argument("--max-shards", type=int, default=None, help="stop after N new shards")
+    parser.add_argument("--shard-size", type=int, default=SHARD_SIZE, help="max cells per shard")
     args = parser.parse_args()
 
     import cellxgene_census  # Linux only
@@ -74,7 +76,7 @@ def main() -> None:
     cfg = yaml.safe_load(Path(args.data_config).read_text())
     manifest = pd.read_parquet(args.manifest)
     labels = manifest.set_index("soma_joinid")[MANIFEST_OBS]
-    shards = plan_shards(manifest, SHARD_SIZE)
+    shards = plan_shards(manifest, args.shard_size)
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     print(f"{len(shards)} shards planned, {len(manifest):,} cells")
@@ -104,6 +106,8 @@ def main() -> None:
             shutil.move(tmp, out / f"{name}.h5ad")
             record_path.write_text(json.dumps(record, indent=2))
             new += 1
+            del adata  # free this shard before downloading the next one
+            gc.collect()
             print(
                 f"{name}: {record['cells']:,} cells, {record['bytes'] / 1e9:.2f} GB, "
                 f"{record['seconds']} s"
