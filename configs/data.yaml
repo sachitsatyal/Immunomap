@@ -1,0 +1,38 @@
+census_version: "2025-11-08"   # CELLxGENE Census LTS release
+organism: homo_sapiens
+base_filter: "tissue_general == 'blood' and disease == 'normal' and is_primary_data == True"
+assays: ["10x 3' v2", "10x 3' v3", "10x 5' v1", "10x 5' v2"]
+seed: 42
+
+reference_datasets:          # split by donor into train / val / test
+  - id: 46104f0b-9af5-466a-ae0f-56b8dc1969a2
+    name: Sound Life Young Adult Females
+    group: sound_life
+  - id: 47e00f43-6176-44a5-b4d1-f88a1920fcab
+    name: Sound Life Older Adult Males
+    group: sound_life
+  - id: 420d0f5d-b7ba-4b1e-88d0-44e9f733febd
+    name: Sound Life Young Adult Males
+    group: sound_life
+  - id: 3cb646ab-d411-4e5b-89eb-082a786c953b
+    name: Sound Life Older Adult Females
+    group: sound_life
+  - id: c838aec3-03ef-4398-b882-0e3912abfff0
+    name: AIDA Phase 1
+    group: aida
+  - id: 3faad104-2ab8-4434-816d-474d8d2641db
+    name: OneK1K single-cell eQTL
+    group: onek1k
+
+cell_budget:                 # cells sampled per group for training
+  sound_life: 400000
+  aida: 300000
+  onek1k: 300000
+
+external_test_datasets:      # whole studies, never used in training
+  - id: ed5d841d-6346-47d4-ab2f-7119ad7e3a35
+    name: NYGC multimodal PBMC (Hao et al. 2021)
+    label_level: fine
+  - id: 218acb0f-9f2f-4f76-b90b-15a4b7c7f629
+    name: Lupus study healthy controls (Perez et al. 2022)
+    label_level: coarse
