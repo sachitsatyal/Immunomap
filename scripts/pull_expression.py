@@ -42,6 +42,18 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def check_existing(record_path: Path, ids: np.ndarray) -> None:
+    """Refuse to resume over a shard made with a different plan (e.g. another --shard-size)."""
+    record = json.loads(record_path.read_text())
+    same = record["cells"] == len(ids) and record.get("first_id", int(ids[0])) == int(ids[0])
+    if not same:
+        raise RuntimeError(
+            f"{record_path.name} was made with a different shard plan "
+            f"({record['cells']:,} cells, expected {len(ids):,}). "
+            "Delete that shard's .h5ad and .json, then re-run."
+        )
+
+
 def pull_shard(census: Any, organism: str, ids: np.ndarray, labels: pd.DataFrame) -> Any:
     import cellxgene_census  # Linux only
 
@@ -86,6 +98,7 @@ def main() -> None:
         for name, ids in shards:
             record_path = out / f"{name}.json"
             if record_path.exists():
+                check_existing(record_path, ids)
                 continue
             if args.max_shards is not None and new >= args.max_shards:
                 break
@@ -102,6 +115,8 @@ def main() -> None:
                 "bytes": tmp.stat().st_size,
                 "sha256": sha256(tmp),
                 "seconds": round(time.time() - start),
+                "first_id": int(ids[0]),
+                "last_id": int(ids[-1]),
             }
             shutil.move(tmp, out / f"{name}.h5ad")
             record_path.write_text(json.dumps(record, indent=2))
