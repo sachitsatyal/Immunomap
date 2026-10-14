@@ -1,0 +1,12 @@
+group,split,cells,removed,pct_removed
+aida,test,29886,1849,6.19
+aida,train,239053,14663,6.13
+aida,val,29857,2051,6.87
+ext_hao2021,external,161159,5407,3.36
+ext_lupus,external,99436,3629,3.65
+onek1k,test,29977,114,0.38
+onek1k,train,239603,1057,0.44
+onek1k,val,29834,114,0.38
+sound_life,test,37192,741,1.99
+sound_life,train,320700,7964,2.48
+sound_life,val,36807,792,2.15

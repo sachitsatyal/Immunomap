@@ -1,0 +1,6 @@
+group,counts_outlier,genes_outlier,high_mt,mt_outlier,pass,too_few_counts,too_few_genes
+aida,12205,2798,0,3103,280233,457,0
+ext_hao2021,2125,268,0,3014,155752,0,0
+ext_lupus,188,34,57,2808,95807,502,40
+onek1k,58,155,0,1072,298129,0,0
+sound_life,2631,2156,0,4634,385202,73,3

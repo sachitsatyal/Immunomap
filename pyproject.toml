@@ -60,3 +60,7 @@ torch = { index = "pytorch-cu128" }
 
 [tool.uv]
 default-groups = ["dev", "train"]
+
+[[tool.mypy.overrides]]
+module = ["pandas.*", "scipy.*", "anndata.*", "scanpy.*"]
+ignore_missing_imports = true
