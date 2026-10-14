@@ -14,8 +14,8 @@ stages:
       nfiles: 71
     - path: scripts/run_qc.py
       hash: md5
-      md5: b706d50a58df84f52809b4b29ebe2345
-      size: 4249
+      md5: 6adafad3ea11f57f5d36298777ff1373
+      size: 4332
     - path: src/immunomap/data/qc.py
       hash: md5
       md5: 9e00352ab802a49b961aba5217b73cbc
@@ -36,8 +36,8 @@ stages:
     deps:
     - path: configs/marker_genes.yaml
       hash: md5
-      md5: 353f98db2fea5f7b3eeab46b4fca1b19
-      size: 373
+      md5: ecf779f8e91716e0ed558d8b2fc342f0
+      size: 367
     - path: data/processed/qc
       hash: md5
       md5: d28a631dc750bdf4a0df511dba98192f.dir
@@ -45,10 +45,36 @@ stages:
       nfiles: 35
     - path: scripts/select_genes.py
       hash: md5
-      md5: 37b1079cd8434f21da4345b23c1cc091
-      size: 4159
+      md5: 683906c54513a1f37f8fdd0d14928b93
+      size: 4075
     outs:
     - path: artifacts/hvg_genes.csv
       hash: md5
-      md5: 5826d9a763679cab6035630f77c3f749
-      size: 130755
+      md5: 284dd050ada6da2c95f42110c979291f
+      size: 127752
+  build_features:
+    cmd: uv run python scripts/build_features.py
+    deps:
+    - path: artifacts/hvg_genes.csv
+      hash: md5
+      md5: 284dd050ada6da2c95f42110c979291f
+      size: 127752
+    - path: data/processed/qc
+      hash: md5
+      md5: d28a631dc750bdf4a0df511dba98192f.dir
+      size: 4938718795
+      nfiles: 35
+    - path: scripts/build_features.py
+      hash: md5
+      md5: 26e60384d35396ca8db9d4072a801de9
+      size: 2033
+    - path: src/immunomap/data/features.py
+      hash: md5
+      md5: 0c4776a1c4df7e2d21bdbbb4d56b0b88
+      size: 2651
+    outs:
+    - path: data/processed/features
+      hash: md5
+      md5: b51a289f10a9edc93582a68be2fcf2fe.dir
+      size: 835441387
+      nfiles: 4
