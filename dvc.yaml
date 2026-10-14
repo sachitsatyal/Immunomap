@@ -1,0 +1,12 @@
+stages:
+  qc:
+    cmd: uv run python scripts/run_qc.py
+    deps:
+      - data/raw/expression
+      - configs/qc.yaml
+      - src/immunomap/data/qc.py
+      - scripts/run_qc.py
+    outs:
+      - data/processed/qc
+      - docs/qc:
+          cache: false    # small reports stay in git
