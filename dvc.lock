@@ -1,0 +1,33 @@
+schema: '2.0'
+stages:
+  qc:
+    cmd: uv run python scripts/run_qc.py
+    deps:
+    - path: configs/qc.yaml
+      hash: md5
+      md5: 74b862d59fb81b5911d71b5b4b9e40dd
+      size: 638
+    - path: data/raw/expression
+      hash: md5
+      md5: 08d4481be9e5d24c567d84469177e9fb.dir
+      size: 5003338339
+      nfiles: 71
+    - path: scripts/run_qc.py
+      hash: md5
+      md5: b706d50a58df84f52809b4b29ebe2345
+      size: 4249
+    - path: src/immunomap/data/qc.py
+      hash: md5
+      md5: 9e00352ab802a49b961aba5217b73cbc
+      size: 4405
+    outs:
+    - path: data/processed/qc
+      hash: md5
+      md5: d28a631dc750bdf4a0df511dba98192f.dir
+      size: 4938718795
+      nfiles: 35
+    - path: docs/qc
+      hash: md5
+      md5: 3a887ae854f33f31d9b8c4e4e82bc698.dir
+      size: 231900
+      nfiles: 4
