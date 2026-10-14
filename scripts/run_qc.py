@@ -44,7 +44,7 @@ def write_reports(metrics: pd.DataFrame, thresholds: pd.DataFrame, report_dir: P
         genes_lo=np.expm1(thresholds["log_genes_lo"]).round(),
         genes_hi=np.expm1(thresholds["log_genes_hi"]).round(),
     )
-    readable.to_csv(report_dir / "qc_thresholds.csv", index_label="batch")
+    readable.to_csv(report_dir / "qc_thresholds.csv", index_label="batch", lineterminator="\n")
 
     summary = (
         metrics.assign(removed=removed)
@@ -52,10 +52,10 @@ def write_reports(metrics: pd.DataFrame, thresholds: pd.DataFrame, report_dir: P
         .agg(cells=("removed", "size"), removed=("removed", "sum"))
     )
     summary["pct_removed"] = (100 * summary["removed"] / summary["cells"]).round(2)
-    summary.to_csv(report_dir / "qc_summary.csv")
+    summary.to_csv(report_dir / "qc_summary.csv", lineterminator="\n")
 
     reasons = pd.crosstab(metrics["group"], metrics["qc_reason"])
-    reasons.to_csv(report_dir / "qc_reasons.csv")
+    reasons.to_csv(report_dir / "qc_reasons.csv", lineterminator="\n")
 
     by_label = (
         metrics.assign(removed=removed)
@@ -64,7 +64,7 @@ def write_reports(metrics: pd.DataFrame, thresholds: pd.DataFrame, report_dir: P
     )
     by_label["pct_removed"] = (100 * by_label["removed"] / by_label["cells"]).round(2)
     by_label = by_label.sort_values("pct_removed", ascending=False)
-    by_label.to_csv(report_dir / "qc_removed_by_label.csv")
+    by_label.to_csv(report_dir / "qc_removed_by_label.csv", lineterminator="\n")
 
     print("\n", summary.to_string())
     print("\n", reasons.to_string())

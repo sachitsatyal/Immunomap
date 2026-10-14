@@ -85,7 +85,7 @@ def main() -> None:
     table = pd.concat([table, extra], ignore_index=True)
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
-    table.to_csv(out, index=False)
+    table.to_csv(out, index=False, lineterminator="\n")
 
     n_groups = adata.obs["group"].nunique()
     is_hvg = table["source"] == "hvg"
