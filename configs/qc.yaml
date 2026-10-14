@@ -1,0 +1,8 @@
+# Cell QC rules. Applied identically to reference data and to user uploads.
+batch_key: donor_id     # adaptive thresholds per sample (donor), the standard QC unit
+min_genes: 200          # hard floor: fewer detected genes = empty droplet or debris
+min_counts: 500         # hard floor on total UMI counts
+max_pct_mt: 20          # hard ceiling: dying cells leak cytoplasmic RNA
+n_mads: 5               # outliers on log counts / log genes beyond median +/- 5 MADs
+n_mads_mt: 5            # outliers on percent MT above median + 5 MADs
+remove_high_outliers: false  # keep high-count cells (plasmablasts, cDCs); doublets handled on uploads
