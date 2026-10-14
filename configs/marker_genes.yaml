@@ -1,0 +1,8 @@
+# Canonical immune marker genes, grouped by lineage.
+# Always added to the model's gene set (on top of the highly variable genes),
+# and reused for sanity checks and the website's marker plots.
+T cell: [CD3E, CD3D, CD8A, IL7R, CCR7, FOXP3, TRDC, KLRB1]
+NK/ILC: [NKG7, GNLY]
+B cell: [MS4A1, CD79A, MZB1]
+Myeloid: [CD14, LYZ, FCGR3A, FCER1A, CLEC4C]
+Other: [PPBP, HBB]

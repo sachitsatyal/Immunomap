@@ -10,3 +10,13 @@ stages:
       - data/processed/qc
       - docs/qc:
           cache: false    # small reports stay in git
+
+  select_genes:
+    cmd: uv run python scripts/select_genes.py
+    deps:
+      - data/processed/qc
+      - scripts/select_genes.py
+      - configs/marker_genes.yaml
+    outs:
+      - artifacts/hvg_genes.csv:
+          cache: false

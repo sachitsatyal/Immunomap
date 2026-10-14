@@ -31,3 +31,24 @@ stages:
       md5: 3a887ae854f33f31d9b8c4e4e82bc698.dir
       size: 231900
       nfiles: 4
+  select_genes:
+    cmd: uv run python scripts/select_genes.py
+    deps:
+    - path: configs/marker_genes.yaml
+      hash: md5
+      md5: 353f98db2fea5f7b3eeab46b4fca1b19
+      size: 373
+    - path: data/processed/qc
+      hash: md5
+      md5: d28a631dc750bdf4a0df511dba98192f.dir
+      size: 4938718795
+      nfiles: 35
+    - path: scripts/select_genes.py
+      hash: md5
+      md5: 37b1079cd8434f21da4345b23c1cc091
+      size: 4159
+    outs:
+    - path: artifacts/hvg_genes.csv
+      hash: md5
+      md5: 5826d9a763679cab6035630f77c3f749
+      size: 130755
