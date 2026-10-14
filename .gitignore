@@ -36,3 +36,4 @@ mlruns/
 .idea/
 
 manifests/
+data/
