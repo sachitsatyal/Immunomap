@@ -1,0 +1,6 @@
+# Calibrated confidence and the "Unknown" flag.
+target_accuracy: 0.95     # threshold is set on val so accepted (non-Unknown) cells are >= 95% correct
+ece_bins: 15
+# Held-out test of unknown detection: these coarse types are removed from training,
+# then we measure whether the model flags them as Unknown instead of mislabelling them.
+holdout_types: [Plasmablast, HSPC]

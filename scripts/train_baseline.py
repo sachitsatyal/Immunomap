@@ -9,49 +9,23 @@ Usage:
 """
 
 import argparse
-import os
-import subprocess
 import tempfile
 import time
 from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
-import h5py
 import mlflow
 import mlflow.sklearn
 import numpy as np
 import pandas as pd
-import yaml
 
+from immunomap.data.io import load_split
 from immunomap.evaluation.metrics import classification_metrics, per_class_report
 from immunomap.models.baseline import LEVELS, BaselineConfig, build_pipeline, labelled_cells
+from immunomap.utils.tracking import data_fingerprint, git_commit, setup_experiment
 
-try:
-    from anndata.io import read_elem
-except ImportError:  # older anndata
-    from anndata.experimental import read_elem
-
-TRACKING_URI = os.environ.get("MLFLOW_TRACKING_URI", "sqlite:///mlflow.db")
 EXPERIMENT = "immunomap-baseline"
-
-
-def load_split(path: Path) -> tuple[Any, pd.DataFrame]:
-    """Normalized matrix and cell metadata only (skips the large raw-counts layer)."""
-    with h5py.File(path, "r") as f:
-        return read_elem(f["X"]), read_elem(f["obs"])
-
-
-def data_fingerprint() -> str:
-    """DVC hash of the model inputs: ties every run to the exact data it used."""
-    lock = yaml.safe_load(Path("dvc.lock").read_text())
-    return str(lock["stages"]["build_features"]["outs"][0]["md5"])
-
-
-def git_commit() -> str:
-    result = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True)
-    return result.stdout.strip() or "unknown"
-
 
 # External studies label at different depths (Lupus has no Treg or MAIT label, Hao does).
 # Pooling them would score a correct "Treg" call on a Lupus cell as a false positive for
@@ -104,12 +78,7 @@ def main() -> None:
     evaluation = {s: load_split(features / f"{s}.h5ad") for s in ["val", "test", "external"]}
     n_genes = X_train.shape[1]
 
-    mlflow.set_tracking_uri(TRACKING_URI)
-    if mlflow.get_experiment_by_name(EXPERIMENT) is None:
-        mlflow.create_experiment(
-            EXPERIMENT, artifact_location=Path("mlartifacts").resolve().as_uri()
-        )
-    mlflow.set_experiment(EXPERIMENT)
+    setup_experiment(EXPERIMENT)
 
     summary = []
     for level in args.levels:
