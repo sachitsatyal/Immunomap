@@ -36,3 +36,6 @@ mlruns/
 .idea/
 
 manifests/
+
+mlflow.db
+mlartifacts/

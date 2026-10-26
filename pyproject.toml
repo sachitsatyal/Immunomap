@@ -9,8 +9,11 @@ authors = [
 requires-python = ">=3.12"
 dependencies = [
     "anndata>=0.13.4",
+    "h5py>=3.16.0",
+    "mlflow>=3.17.1",
     "pyyaml>=6.0.3",
     "scanpy>=1.12.4",
+    "scikit-learn>=1.9.1",
 ]
 
 [project.scripts]
@@ -63,5 +66,5 @@ torch = { index = "pytorch-cu128" }
 default-groups = ["dev", "train"]
 
 [[tool.mypy.overrides]]
-module = ["pandas.*", "scipy.*", "anndata.*", "scanpy.*"]
+module = ["pandas.*", "scipy.*", "anndata.*", "scanpy.*", "sklearn.*", "mlflow.*", "h5py.*"]
 ignore_missing_imports = true
