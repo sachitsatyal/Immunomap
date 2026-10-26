@@ -1,0 +1,7 @@
+# Distance-to-reference novelty detection (part of the "Unknown" flag).
+n_components: 50     # PCA dimensions for measuring distances
+n_neighbors: 15      # novelty score = mean distance to the 15 nearest reference cells
+ref_per_type: 6000   # reference cells per coarse type (rare types kept whole)
+quantile: 0.99       # threshold flags ~1% of known validation cells
+n_jobs: 8
+seed: 42

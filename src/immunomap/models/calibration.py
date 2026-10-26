@@ -77,3 +77,14 @@ class Calibration:
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
+
+
+def fit_calibration(model: Any, scores: Any, y: Any, target_accuracy: float) -> Calibration:
+    """Fit temperature and Unknown threshold on validation scores of a fitted classifier."""
+    classes = [str(c) for c in model.classes_]
+    y_index = np.searchsorted(model.classes_, y)
+    temperature = fit_temperature(scores, y_index)
+    proba = calibrated_proba(scores, temperature)
+    correct = proba.argmax(axis=1) == y_index
+    threshold = choose_threshold(proba.max(axis=1), correct, target_accuracy)
+    return Calibration(classes=classes, temperature=temperature, threshold=threshold)
