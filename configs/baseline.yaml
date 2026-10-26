@@ -1,0 +1,7 @@
+# Logistic-regression baseline (CellTypist-style), trained with SGD.
+alpha: 1.0e-5          # L2 regularization strength (write floats with a dot: YAML reads 1e-5 as text)
+max_iter: 20           # passes over the training data
+tol: 1.0e-3            # stop early when the loss stops improving
+class_weight: balanced # up-weight rare cell types (Tregs, pDCs, plasmablasts)
+n_jobs: 8              # CPU cores; the machine is shared, so not all of them
+seed: 42
