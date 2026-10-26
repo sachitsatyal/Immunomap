@@ -32,8 +32,7 @@ from immunomap.models.calibration import (
     Calibration,
     CalibrationConfig,
     calibrated_proba,
-    choose_threshold,
-    fit_temperature,
+    fit_calibration,
 )
 from immunomap.utils.tracking import data_fingerprint, git_commit, setup_experiment
 
@@ -44,16 +43,6 @@ def scored(model: Any, X: Any, obs: pd.DataFrame, level: str) -> tuple[Any, Any,
     """Classifier scores, true labels and study group for cells labelled at this level."""
     idx, y = labelled_cells(obs, level)
     return model.decision_function(X[idx]), y, obs["group"].astype(str).to_numpy()[idx]
-
-
-def fit_calibration(model: Any, scores: Any, y: Any, target: float) -> Calibration:
-    classes = [str(c) for c in model.classes_]
-    y_index = np.searchsorted(model.classes_, y)
-    temperature = fit_temperature(scores, y_index)
-    proba = calibrated_proba(scores, temperature)
-    correct = proba.argmax(axis=1) == y_index
-    threshold = choose_threshold(proba.max(axis=1), correct, target)
-    return Calibration(classes=classes, temperature=temperature, threshold=threshold)
 
 
 def report(model: Any, calib: Calibration, scores: Any, y: Any, bins: int) -> dict[str, float]:
