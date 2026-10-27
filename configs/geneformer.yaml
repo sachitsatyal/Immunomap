@@ -1,0 +1,5 @@
+# Geneformer V2 (Theodoris lab), fine-tuned with LoRA as the foundation-model candidate.
+repo_id: ctheodoris/Geneformer
+variant: Geneformer-V2-104M     # 104M parameters, 4,096-gene input, pretrained on ~104M cells
+revision: 1f7fbae4e469a5f4f1af8c111a529cfe1b3829f5   # pinned to a commit hash after the first download (reproducibility)
+local_dir: data/external/geneformer

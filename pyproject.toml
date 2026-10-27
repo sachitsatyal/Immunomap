@@ -34,8 +34,12 @@ dev = [
     "types-pyyaml>=6.0.12.20260906",
 ]
 train = [
+    "accelerate>=1.15.0",
+    "huggingface-hub>=2.3.0",
+    "peft>=0.21.2",
     "scvi-tools>=1.5.1",
     "torch>=2.7",
+    "transformers>=5.21.0",
 ]
 
 [tool.ruff]
