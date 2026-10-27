@@ -44,3 +44,12 @@ def test_threshold_flags_about_the_chosen_fraction_of_known_cells() -> None:
 def test_config_loads_from_repo_yaml() -> None:
     cfg = NoveltyConfig.from_yaml("configs/novelty.yaml")
     assert cfg.n_neighbors > 0 and 0.5 < cfg.quantile < 1.0
+
+
+def test_precomputed_latent_space_is_used_as_is() -> None:
+    rng = np.random.default_rng(2)
+    reference = rng.normal(0, 1, (300, 10))
+    detector = ReferenceDistance(CFG, embed=False).fit(reference)
+    near = detector.score(rng.normal(0, 1, (50, 10)))
+    far = detector.score(rng.normal(8, 1, (50, 10)))
+    assert near.max() < far.min()

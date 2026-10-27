@@ -135,10 +135,20 @@ def train_scanvi(scvi_model: Any, level: str, cfg: ScanviConfig) -> Any:
     return model
 
 
+def load_scanvi(model_dir: str | Path, adata: ad.AnnData, level: str, cfg: ScanviConfig) -> Any:
+    """A saved scANVI model, attached to the training data it was trained on."""
+    import scvi
+
+    clean_batches(adata, cfg.batch_key)
+    add_label_column(adata, level)
+    return scvi.model.SCANVI.load(str(model_dir), adata=adata)
+
+
 def predict_proba(
     model: Any, adata: ad.AnnData, cfg: ScanviConfig, known_batches: set[str]
-) -> tuple[pd.DataFrame, bool]:
-    """Class probabilities (cells x cell types), and whether reference mapping was used."""
+) -> tuple[pd.DataFrame, Any, bool]:
+    """Class probabilities (cells x cell types, columns sorted), the cells' latent
+    representation, and whether reference mapping was used."""
     import scvi
 
     clean_batches(adata, cfg.batch_key)
@@ -154,8 +164,14 @@ def predict_proba(
             accelerator="auto",
         )
         model = query
-    proba = model.predict(adata, soft=True, batch_size=cfg.batch_size)
-    return pd.DataFrame(proba), mapped
+    proba = pd.DataFrame(model.predict(adata, soft=True, batch_size=cfg.batch_size))
+    latent = np.asarray(model.get_latent_representation(adata, batch_size=cfg.batch_size))
+    return proba[sorted(proba.columns)], latent, mapped
+
+
+def log_scores(proba: pd.DataFrame) -> Any:
+    """Log-probabilities: the 'scores' that temperature scaling divides."""
+    return np.log(np.clip(proba.to_numpy(dtype=np.float64), 1e-12, 1.0))
 
 
 def top_label(proba: pd.DataFrame) -> tuple[Any, Any]:

@@ -113,7 +113,7 @@ def main() -> None:
             print(f"scANVI {level}: trained in {time.time() - start:.0f} s")
 
             for split, adata in evaluation.items():
-                proba, mapped = predict_proba(model, adata, cfg, known_batches)
+                proba, _, mapped = predict_proba(model, adata, cfg, known_batches)
                 labels, confidence = top_label(proba)
                 result = evaluate(labels, adata.obs, level, split)
                 log_result(result)
