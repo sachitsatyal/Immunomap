@@ -39,3 +39,6 @@ manifests/
 
 mlflow.db
 mlartifacts/
+
+/data/external/
+/data/models/
