@@ -2,31 +2,40 @@ stages:
   qc:
     cmd: uv run python scripts/run_qc.py
     deps:
-      - data/raw/expression
-      - configs/qc.yaml
-      - src/immunomap/data/qc.py
-      - scripts/run_qc.py
+    - data/raw/expression
+    - configs/qc.yaml
+    - src/immunomap/data/qc.py
+    - scripts/run_qc.py
     outs:
-      - data/processed/qc
-      - docs/qc:
-          cache: false    # small reports stay in git
+    - data/processed/qc
+    - docs/qc:
+        cache: false      # small reports stay in git
 
   select_genes:
     cmd: uv run python scripts/select_genes.py
     deps:
-      - data/processed/qc
-      - scripts/select_genes.py
-      - configs/marker_genes.yaml
+    - data/processed/qc
+    - scripts/select_genes.py
+    - configs/marker_genes.yaml
     outs:
-      - artifacts/hvg_genes.csv:
-          cache: false
+    - artifacts/hvg_genes.csv:
+        cache: false
 
   build_features:
     cmd: uv run python scripts/build_features.py
     deps:
-      - data/processed/qc
-      - artifacts/hvg_genes.csv
-      - src/immunomap/data/features.py
-      - scripts/build_features.py
+    - data/processed/qc
+    - artifacts/hvg_genes.csv
+    - src/immunomap/data/features.py
+    - scripts/build_features.py
     outs:
-      - data/processed/features
+    - data/processed/features
+  tokenize_geneformer:
+    cmd: uv run python scripts/tokenize_geneformer.py
+    deps:
+    - configs/geneformer.yaml
+    - data/processed/qc
+    - scripts/tokenize_geneformer.py
+    - src/immunomap/data/geneformer_tokens.py
+    outs:
+    - data/processed/geneformer
