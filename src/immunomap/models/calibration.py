@@ -81,8 +81,16 @@ class Calibration:
 
 def fit_calibration(model: Any, scores: Any, y: Any, target_accuracy: float) -> Calibration:
     """Fit temperature and Unknown threshold on validation scores of a fitted classifier."""
-    classes = [str(c) for c in model.classes_]
-    y_index = np.searchsorted(model.classes_, y)
+    return calibrate_scores(list(model.classes_), scores, y, target_accuracy)
+
+
+def calibrate_scores(classes: Any, scores: Any, y: Any, target_accuracy: float) -> Calibration:
+    """Same as fit_calibration, for any model: `scores` has one column per class in `classes`
+    (sorted), e.g. log-probabilities from scANVI."""
+    classes = [str(c) for c in classes]
+    if classes != sorted(classes):
+        raise ValueError("classes must be sorted (score columns in sorted order)")
+    y_index = np.searchsorted(np.asarray(classes), np.asarray(y).astype(str))
     temperature = fit_temperature(scores, y_index)
     proba = calibrated_proba(scores, temperature)
     correct = proba.argmax(axis=1) == y_index

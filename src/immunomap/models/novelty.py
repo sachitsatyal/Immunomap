@@ -46,23 +46,35 @@ def reference_sample(labels: Any, per_type: int, seed: int) -> Any:
 
 
 class ReferenceDistance:
-    def __init__(self, cfg: NoveltyConfig) -> None:
+    """embed=True: cells are expression (embedded with PCA here).
+    embed=False: cells are already embedded, e.g. a scANVI latent space."""
+
+    def __init__(self, cfg: NoveltyConfig, embed: bool = True) -> None:
         self.cfg = cfg
         self.threshold = float("inf")
+        self.embed = (
+            make_pipeline(
+                StandardScaler(with_mean=False),
+                TruncatedSVD(n_components=cfg.n_components, random_state=cfg.seed),
+            )
+            if embed
+            else None
+        )
+
+    def _space(self, X: Any) -> Any:
+        return X if self.embed is None else self.embed.transform(X)
 
     def fit(self, X_reference: Any) -> Self:
-        self.embed = make_pipeline(
-            StandardScaler(with_mean=False),
-            TruncatedSVD(n_components=self.cfg.n_components, random_state=self.cfg.seed),
-        ).fit(X_reference)
+        if self.embed is not None:
+            self.embed.fit(X_reference)
         self.neighbors = NearestNeighbors(
             n_neighbors=self.cfg.n_neighbors, algorithm="brute", n_jobs=self.cfg.n_jobs
-        ).fit(self.embed.transform(X_reference))
+        ).fit(self._space(X_reference))
         return self
 
     def score(self, X: Any) -> Any:
         """Mean distance to the k nearest reference cells (higher = more novel)."""
-        distances, _ = self.neighbors.kneighbors(self.embed.transform(X))
+        distances, _ = self.neighbors.kneighbors(self._space(X))
         return distances.mean(axis=1)
 
     def set_threshold(self, known_scores: Any) -> float:

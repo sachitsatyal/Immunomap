@@ -3,6 +3,7 @@ import pytest
 
 from immunomap.evaluation.calibration_metrics import (
     accuracy_at_coverage,
+    calibration_summary,
     expected_calibration_error,
     unknown_detection_auroc,
 )
@@ -10,6 +11,7 @@ from immunomap.models.calibration import (
     UNKNOWN,
     Calibration,
     CalibrationConfig,
+    calibrate_scores,
     calibrated_proba,
     choose_threshold,
     fit_temperature,
@@ -70,3 +72,21 @@ def test_calibration_config_loads_from_repo_yaml() -> None:
     cfg = CalibrationConfig.from_yaml("configs/calibration.yaml")
     assert 0.5 < cfg.target_accuracy < 1.0
     assert "Plasmablast" in cfg.holdout_types
+
+
+def test_calibrate_scores_works_from_log_probabilities() -> None:
+    rng = np.random.default_rng(0)
+    y = rng.choice(["B", "NK", "T"], 3000)
+    # an overconfident model: right 80% of the time, always ~99% sure
+    pred = np.where(rng.random(3000) < 0.8, y, rng.choice(["B", "NK", "T"], 3000))
+    proba = np.full((3000, 3), 0.005)
+    proba[np.arange(3000), np.searchsorted(["B", "NK", "T"], pred)] = 0.99
+    calib = calibrate_scores(["B", "NK", "T"], np.log(proba), y, target_accuracy=0.95)
+    assert calib.temperature > 1.0  # overconfidence is softened
+    summary = calibration_summary(calib, np.log(proba), y)
+    assert summary["ece_calibrated"] < summary["ece_raw"]
+
+
+def test_calibrate_scores_requires_sorted_classes() -> None:
+    with pytest.raises(ValueError):
+        calibrate_scores(["T", "B"], np.zeros((2, 2)), ["T", "B"], 0.95)
