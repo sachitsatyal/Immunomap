@@ -1,5 +1,12 @@
 # Geneformer V2 (Theodoris lab), fine-tuned with LoRA as the foundation-model candidate.
 repo_id: ctheodoris/Geneformer
 variant: Geneformer-V2-104M     # 104M parameters, 4,096-gene input, pretrained on ~104M cells
-revision: 1f7fbae4e469a5f4f1af8c111a529cfe1b3829f5   # pinned to a commit hash after the first download (reproducibility)
+revision: 1f7fbae4e469a5f4f1af8c111a529cfe1b3829f5   # pinned commit: same weights every run
 local_dir: data/external/geneformer
+
+# Tokenizer files (V2 / gc104M) inside local_dir, and settings matching pretraining
+token_dictionary: geneformer/token_dictionary_gc104M.pkl
+gene_median: geneformer/gene_median_dictionary_gc104M.pkl
+gene_mapping: geneformer/ensembl_mapping_dict_gc104M.pkl
+model_input_size: 4096          # <cls> + up to 4,094 ranked genes + <eos>
+tokens_dir: data/processed/geneformer

@@ -78,3 +78,29 @@ stages:
       md5: b51a289f10a9edc93582a68be2fcf2fe.dir
       size: 835441387
       nfiles: 4
+  tokenize_geneformer:
+    cmd: uv run python scripts/tokenize_geneformer.py
+    deps:
+    - path: configs/geneformer.yaml
+      hash: md5
+      md5: 39b22e46d8fa8a8c0ca78b6195035408
+      size: 714
+    - path: data/processed/qc
+      hash: md5
+      md5: d28a631dc750bdf4a0df511dba98192f.dir
+      size: 4938718795
+      nfiles: 35
+    - path: scripts/tokenize_geneformer.py
+      hash: md5
+      md5: dc94a97aff1ef32a1c903fb2855b2430
+      size: 3543
+    - path: src/immunomap/data/geneformer_tokens.py
+      hash: md5
+      md5: fb974dbfa4237b8e734adb9708a9aa77
+      size: 5803
+    outs:
+    - path: data/processed/geneformer
+      hash: md5
+      md5: 8912c0ca88807b7c15a3818f3e0d59d3.dir
+      size: 4015825328
+      nfiles: 12
