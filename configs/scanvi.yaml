@@ -1,0 +1,17 @@
+# scVI + scANVI (scvi-tools), trained on raw counts of the 3,002 model genes.
+batch_key: dataset_id   # correct for differences between the source datasets (labs, protocols)
+n_latent: 30            # size of the learned cell representation
+n_layers: 2
+n_hidden: 128
+gene_likelihood: nb     # negative binomial: standard for UMI counts
+# scArches settings recommended by scvi-tools for models that will map new datasets.
+# Without encode_covariates the encoder never sees the batch, so mapping cannot adapt it.
+encode_covariates: true
+use_layer_norm: both
+use_batch_norm: none
+dropout_rate: 0.2
+scvi_epochs: 30         # stage 1: unsupervised scVI
+scanvi_epochs: 15       # stage 2: classifier, per label level
+query_epochs: 30        # reference mapping of datasets the model has not seen (external studies)
+batch_size: 1024        # cells per step; large batches keep the GPU busy
+seed: 42
