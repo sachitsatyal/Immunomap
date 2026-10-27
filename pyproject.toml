@@ -34,6 +34,7 @@ dev = [
     "types-pyyaml>=6.0.12.20260906",
 ]
 train = [
+    "scvi-tools>=1.5.1",
     "torch>=2.7",
 ]
 
@@ -66,5 +67,5 @@ torch = { index = "pytorch-cu128" }
 default-groups = ["dev", "train"]
 
 [[tool.mypy.overrides]]
-module = ["pandas.*", "scipy.*", "anndata.*", "scanpy.*", "sklearn.*", "mlflow.*", "h5py.*"]
+module = ["pandas.*", "scipy.*", "anndata.*", "scanpy.*", "sklearn.*", "mlflow.*", "h5py.*", "scvi", "scvi.*"]
 ignore_missing_imports = true
