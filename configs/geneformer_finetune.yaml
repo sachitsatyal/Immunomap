@@ -1,0 +1,16 @@
+# LoRA fine-tuning of Geneformer V2 for cell-type classification (coarse + fine heads).
+per_label_cap: 5000      # training cells per cell type (fine label, else coarse); rare types kept whole
+epochs: 2
+learning_rate: 2.0e-4    # typical for LoRA adapters
+weight_decay: 0.01
+warmup_steps: 300
+max_tokens: 32768        # padded tokens per training batch (cells x longest cell): ~20 typical cells
+eval_max_tokens: 131072  # larger batches for prediction (no gradients stored)
+megabatch: 2048          # cells sorted by length together, so batches carry little padding
+lora_r: 16               # adapter rank
+lora_alpha: 32
+lora_dropout: 0.1
+lora_targets: [query, key, value, dense]   # attention and feed-forward layers
+head_dropout: 0.1
+val_monitor_cells: 10000 # val cells scored after each epoch
+seed: 42
