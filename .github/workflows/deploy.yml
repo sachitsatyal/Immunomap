@@ -1,0 +1,45 @@
+name: Deploy demo
+
+# Continuous deployment: after CI passes on main, redeploy the Hugging Face Space at
+# that exact commit and wait until it is running. Can also be started by hand
+# (Actions tab -> Deploy demo -> Run workflow).
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-space
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy to Hugging Face Spaces
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event == 'push')
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      COMMIT: ${{ github.event.workflow_run.head_sha || github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.COMMIT }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install the Hugging Face client
+        run: pip install "huggingface_hub>=0.30"
+      - name: Deploy and wait until the Space is running
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: >-
+          python scripts/publish_hf.py --user sawcheet --space-only
+          --commit "$COMMIT" --wait
