@@ -24,6 +24,9 @@ requires = ["uv_build>=0.12.21,<0.13.0"]
 build-backend = "uv_build"
 
 [dependency-groups]
+app = [
+    "gradio>=6.31.0",
+]
 dev = [
     "dvc>=3.67.1",
     "mypy>=2.4.0",

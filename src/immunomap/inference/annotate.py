@@ -44,6 +44,27 @@ class Calls:
     confidence: Any
 
 
+def _is_counts(X: Any) -> bool:
+    values = X.data if sp.issparse(X) else np.asarray(X).ravel()
+    sample = np.asarray(values[:100_000], dtype=np.float64)
+    return bool(len(sample) == 0 or (np.all(sample >= 0) and np.all(sample == np.round(sample))))
+
+
+def ensure_raw_counts(adata: ad.AnnData) -> ad.AnnData:
+    """The file's raw UMI counts: X, else layers['counts'], else .raw (CELLxGENE files keep
+    normalized values in X and counts in .raw). Raises ValueError if none look like counts."""
+    if _is_counts(adata.X):
+        return adata
+    if "counts" in adata.layers and _is_counts(adata.layers["counts"]):
+        return ad.AnnData(X=adata.layers["counts"], obs=adata.obs, var=adata.var)
+    if adata.raw is not None and _is_counts(adata.raw.X):
+        return ad.AnnData(X=adata.raw.X, obs=adata.obs, var=adata.raw.var)
+    raise ValueError(
+        "No raw counts found: X, layers['counts'] and .raw all look normalized. "
+        "ImmunoMap needs raw UMI counts."
+    )
+
+
 def harmonize_genes(adata: ad.AnnData, genes: pd.DataFrame) -> tuple[ad.AnnData, Any]:
     """Return (adata with Ensembl IDs as var_names where possible, gene symbols).
 
