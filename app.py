@@ -2,6 +2,7 @@
 
 Run locally:   uv run --group app python app.py      (then open http://127.0.0.1:7860)
 Settings (environment variables):
+    IMMUNOMAP_HF_REPO    Hugging Face model repo holding the bundle (used on Spaces)
     IMMUNOMAP_BUNDLE     model bundle folder (scripts/export_bundle.py)
     IMMUNOMAP_EXAMPLE    example .h5ad offered by the "Try the example" button
     IMMUNOMAP_MAX_CELLS  larger uploads are randomly subsampled to this many cells
@@ -24,6 +25,12 @@ from immunomap.models.calibration import UNKNOWN
 BUNDLE = os.environ.get("IMMUNOMAP_BUNDLE", "data/models/bundle/immunomap-scanvi-v1")
 EXAMPLE = os.environ.get("IMMUNOMAP_EXAMPLE", "data/examples/hao2021_2000cells.h5ad")
 MAX_CELLS = int(os.environ.get("IMMUNOMAP_MAX_CELLS", "20000"))
+HF_REPO = os.environ.get("IMMUNOMAP_HF_REPO")  # set on Hugging Face Spaces
+if HF_REPO:  # download the model bundle (and example) published by scripts/publish_hf.py
+    from huggingface_hub import snapshot_download
+
+    _local = Path(snapshot_download(HF_REPO))
+    BUNDLE, EXAMPLE = str(_local), str(_local / "examples" / Path(EXAMPLE).name)
 
 ANNOTATOR = Annotator.from_bundle(BUNDLE)
 F1 = ANNOTATOR.manifest.get("macro_f1", {})
