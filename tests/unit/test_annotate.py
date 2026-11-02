@@ -19,6 +19,7 @@ from immunomap.inference.annotate import (
     Annotator,
     Calls,
     combine_calls,
+    ensure_raw_counts,
     harmonize_genes,
 )
 from immunomap.models.calibration import UNKNOWN
@@ -160,3 +161,14 @@ def test_annotator_end_to_end(bundle: Path) -> None:
     assert table["status"].tolist()[3] == "unlike_reference"
     assert summary["passed_qc"] == 3 and summary["model_genes_missing"] == 0
     assert summary["model"] == "test-bundle"
+
+
+def test_raw_counts_are_found_in_x_layers_or_raw() -> None:
+    counts = sp.csr_matrix(np.array([[3, 0], [1, 2]], dtype=np.float32))
+    normalized = sp.csr_matrix(np.log1p(counts.toarray() / 3))
+    plain = AnnData(X=counts)
+    assert ensure_raw_counts(plain) is plain
+    layered = AnnData(X=normalized, layers={"counts": counts})
+    assert (counts != ensure_raw_counts(layered).X).nnz == 0
+    with pytest.raises(ValueError):
+        ensure_raw_counts(AnnData(X=normalized))
